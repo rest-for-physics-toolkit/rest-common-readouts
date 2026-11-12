@@ -1,0 +1,4 @@
+# Generated (release assets: generate.sh)
+output/
+*.root
+*.log

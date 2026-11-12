@@ -1,0 +1,34 @@
+# TREX-DM Micromegas readouts (legacy trexdm-readouts readoutsMM4S_2MM_v5.root, TREXDM_MM4S_Sep2022_v5): two
+# planes, plane0 at z = 160.4 mm (DAQ channels 2-573) and plane1 at z = -160.4 mm (DAQ channels 578-1149),
+# with the cathode at z = 0, both in TREXDM.root (one entry each in the readout manager). 256 strips per
+# axis, pitch 0.96 mm. The decodings were taken from the legacy readout (DAQ channel of each channel): legacy
+# channel c < 256 (strip at x) is the X strip c (physical ID 256 + c), legacy channel 256 + k (strip at y)
+# the Y strip k (physical ID k); see the .dec files for the corrected Y strip 1. Generated (from this
+# directory) with:
+#   restRoot
+#   REST_Detector_GenerateReadouts("TREXDM.yaml", "TREXDM.root")
+plane0:
+  class: "TRestMicromegasReadout"
+  name: "TREXDM_Plane0_Readout"
+  decodingFile: "TREXDM_Plane0.dec"
+  readoutParameters:
+    nChannels: 256
+    pitch: 0.96
+    thickness: 1 um
+    gasThickness: 160.4 mm
+    normal: [0, 0, -1]  # readout plane at z = 160.4 mm, cathode at z = 0
+    positionRelative: [0.0, 0.0, 160.4]
+    globalRotation: 0 deg
+
+plane1:
+  class: "TRestMicromegasReadout"
+  name: "TREXDM_Plane1_Readout"
+  decodingFile: "TREXDM_Plane1.dec"
+  readoutParameters:
+    nChannels: 256
+    pitch: 0.96
+    thickness: 1 um
+    gasThickness: 160.4 mm
+    normal: [0, 0, 1]  # readout plane at z = -160.4 mm, cathode at z = 0
+    positionRelative: [0.0, 0.0, -160.4]
+    globalRotation: 0 deg

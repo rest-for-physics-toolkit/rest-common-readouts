@@ -1,0 +1,25 @@
+# Fibre readout of the LiquidO chamber (TRestFibreReadout, only the geometry; LiquidO.dec is a dummy identity
+# decoding until the electronics is defined): a box of 1500 mm (from z = 0 to z = 1500 mm) crossed by fibres
+# along Y (channels 0-5624, XZ hits) and along X (channels 5625-11249, YZ hits) of pitch 20 mm, in alternated
+# layers 10 mm apart. Generated (from this directory) with the placements of the fibres to include in the
+# GDML of the simulation (entity):
+#   restRoot
+#   REST_Detector_GenerateReadouts("LiquidO.yaml", "LiquidO.root")   // also LiquidO_Readout_fibres.xml
+readout:
+  class: "TRestFibreReadout"
+  name: "LiquidO_Readout"
+  decodingFile: "LiquidO.dec"
+  readoutParameters:
+    size: [1500 mm, 1500 mm, 1500 mm]
+    position: [0, 0, 750 mm]
+    fibres:
+      # Along Y: transverse Z and X, at z = 15 + 20 k, x = -735 + 20 i
+      - axis: "Y"
+        pitch: 20 mm
+        offset: [15 mm, 15 mm]
+        volume: "fibreVolume"
+      # Along X: transverse Y and Z, at y = -745 + 20 i, z = 5 + 20 k
+      - axis: "X"
+        pitch: 20 mm
+        offset: [5 mm, 5 mm]
+        volume: "fibreVolume"

@@ -1,0 +1,17 @@
+# Micromegas readout of AlphaCAMM (legacy alphacamm-readouts microbulkReadout): 256 strips per axis, pitch
+# 0.96 mm, readout plane at z = 0 and cathode at z = 90 mm (geometry/setup.gdml). Generated from this
+# directory (the decoding file is relative to it):
+#   restRoot
+#   REST_Detector_GenerateReadouts("AlphaCAMM.yaml", "AlphaCAMM.root")
+readout:
+  class: "TRestMicromegasReadout"
+  name: "AlphaCAMM_Readout"
+  decodingFile: "AlphaCAMM.dec"
+  readoutParameters:
+    nChannels: 256
+    pitch: 0.96
+    thickness: 1 um
+    gasThickness: 90 mm
+    normal: [0, 0, 1]  # readout plane at z = 0, cathode at z = 90 mm: the drift distance is z
+    positionRelative: [0.0, 0.0, 0.0]
+    globalRotation: 0 deg

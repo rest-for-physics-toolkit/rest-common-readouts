@@ -1,0 +1,67 @@
+# Readout files (generate.sh, overlaps checked), generated at each push and pull request (kept as a workflow
+# artifact, to check them) and attached to the release of each tag v* (e.g. git tag v1.0 && git push origin
+# v1.0). The projects read them with
+#   https://github.com/<owner>/rest-common-readouts/releases/download/<tag>/<asset>
+#
+# restv2 is built from <owner>/rest-framework at the ref of the repository variable REST_FRAMEWORK_REF
+# (Settings, Secrets and variables, Actions, Variables; default master), in the container of rest-docker:
+# ghcr.io/<owner>/rest-env:latest, or the image of the repository variable REST_IMAGE.
+name: Readouts
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  readouts:
+    name: Readouts
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ vars.REST_IMAGE || format('ghcr.io/{0}/rest-env:latest', github.repository_owner) }}
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Checkout restv2
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/rest-framework
+          ref: ${{ vars.REST_FRAMEWORK_REF || 'master' }}
+          path: rest-framework
+
+      # Only the libraries: the optional applications (restG4, restCRY, restGarfield, restDAQ) are not needed
+      - name: Build restv2
+        run: |
+          cmake -S rest-framework -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX="$GITHUB_WORKSPACE/install" \
+            -DREST_G4=OFF -DREST_CRY=OFF -DREST_GARFIELD=OFF -DREST_DAQ=OFF
+          cmake --build build --target install -j "$(nproc)"
+
+      - name: Generate the readouts
+        run: |
+          source install/thisREST.sh
+          ./generate.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: readouts
+          path: output/
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: output/*

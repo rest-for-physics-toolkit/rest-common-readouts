@@ -1,0 +1,17 @@
+# Readouts of IAXO, in IAXO.root (one entry each in the readout manager). Micromegas readout of IAXO-D1 in
+# the IAXOLab (restv2 example MicromegasReadout.yaml, decoding iaxo_d1_iaxolab.dec): 120 strips per axis,
+# pitch 0.5 mm, readout plane at z = -15 mm with a 30 mm drift volume, rotated 45 degrees. Generated (from
+# this directory) with:
+#   restRoot
+#   REST_Detector_GenerateReadouts("IAXO.yaml", "IAXO.root")
+readout:
+  class: "TRestMicromegasReadout"
+  name: "IAXO_D1_Readout"
+  decodingFile: "IAXO_D1.dec"
+  readoutParameters:
+    nChannels: 120
+    pitch: 0.5
+    thickness: 1 um
+    gasThickness: 30 mm
+    positionRelative: [0.0, 0.0, -1.50 cm]
+    globalRotation: 45 deg

@@ -1,7 +1,8 @@
 # rest-common-readouts
 
-The detector readouts shared by the projects of rest-for-physics-toolkit (AlphaCAMM, LiquidO...) for
-[restv2](https://github.com/rest-for-physics-toolkit/rest-framework).
+The detector readouts shared by the projects of
+[rest-for-physics-toolkit](https://github.com/rest-for-physics-toolkit/rest-framework) (AlphaCAMM,
+LiquidO...).
 
 Only the sources are in the repository (a directory per project: its YAML and decoding files). The readout
 files are the assets of each release (a tag `v*`), so a project reads a fixed version of them by URL, in
@@ -11,10 +12,10 @@ files are the assets of each release (a tag `v*`), so a project reads a fixed ve
 https://github.com/rest-for-physics-toolkit/rest-common-readouts/releases/download/<tag>/<asset>
 ```
 
-restv2 downloads a URL once and keeps it in `$REST_HOME/.rest/download` (it works offline afterwards, e.g. in
-the nodes of a cluster).
+rest-for-physics-toolkit downloads a URL once and keeps it in `$REST_HOME/.rest/download` (it works offline
+afterwards, e.g. in the nodes of a cluster).
 
-Part of the shared resources of restv2 (topic `rest-common`):
+Part of the shared resources of rest-for-physics-toolkit (topic `rest-common`):
 [rest-common-materials](https://github.com/rest-for-physics-toolkit/rest-common-materials) (Geant4 materials),
 [rest-common-transport](https://github.com/rest-for-physics-toolkit/rest-common-transport) (electron transport
 tables) and readouts (this repository).
@@ -69,7 +70,7 @@ The fibres of LiquidO in the GDML of its simulation:
 
 ## Generation
 
-With restv2 in the environment (its `thisREST.sh` sourced), `./generate.sh` writes, for each
+With rest-for-physics-toolkit in the environment (its `thisREST.sh` sourced), `./generate.sh` writes, for each
 `<project>/<project>.yaml`, `output/<project>.root` with all its readouts (`REST_Detector_GenerateReadouts`)
 and `output/<readout name>_fibres.xml` for a fibre readout, with the geometry overlaps checked (it fails if
 there is any). The CI (`.github/workflows/release.yml`) runs it at each push and pull request and attaches the
